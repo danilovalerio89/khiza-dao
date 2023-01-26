@@ -1,7 +1,7 @@
 <script></script>
 
 <template>
-  <v-sheet class="mx-auto" max-width="700">
+  <v-sheet class="mx-auto" max-width="1000">
     <v-slide-group multiple show-arrows class="container">
       <v-slide-item v-for="n in 25" :key="n">
         <v-btn

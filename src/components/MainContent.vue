@@ -1,4 +1,5 @@
 <script setup>
+import CoinInfo from "./CoinInfoToday.vue";
 import CoinSlide from "./CoinSlide.vue";
 </script>
 
@@ -8,7 +9,7 @@ import CoinSlide from "./CoinSlide.vue";
       <v-col cols="12">
         <CoinSlide />
       </v-col>
-      <v-col cols="11">
+      <v-col cols="12">
         <v-text-field
           label="Main input"
           :rules="rules"
@@ -16,6 +17,7 @@ import CoinSlide from "./CoinSlide.vue";
         ></v-text-field>
       </v-col>
     </v-row>
+    <CoinInfo />
   </v-container>
 </template>
 
