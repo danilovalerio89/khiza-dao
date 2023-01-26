@@ -1,4 +1,4 @@
-<script></script>
+<script setup></script>
 
 <template>
   <v-sheet class="mx-auto" max-width="1000">
