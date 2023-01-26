@@ -1,11 +1,9 @@
-<script setup>
-// import { ref, reactive } from "vue";
-</script>
+<script setup></script>
 
 <template>
   <div>
-    <h1>Minha Home</h1>
-
-    <button></button>
+    <h1>Minha msg</h1>
   </div>
 </template>
+
+<style></style>
