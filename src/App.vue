@@ -3,10 +3,16 @@ import MeuHeader from "./components/HeaderComp.vue";
 </script>
 
 <template>
-  <v-app>
-    <v-main>
-      <MeuHeader msg="nova msg aqui" />
+  <v-app class="v-app__wrap">
+    <MeuHeader />
+    <v-main class="v-main__wrap">
       <router-view />
     </v-main>
   </v-app>
 </template>
+
+<style>
+.v-app__wrap {
+  display: flex;
+}
+</style>

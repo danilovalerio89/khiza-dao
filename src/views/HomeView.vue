@@ -1,9 +1,9 @@
-<script setup></script>
+<script setup>
+import MainContent from "../components/MainContent.vue";
+</script>
 
 <template>
-  <div>
-    <h1>Minha msg</h1>
-  </div>
+  <MainContent />
 </template>
 
 <style></style>
