@@ -1,4 +1,5 @@
 <script setup>
+import FooterComp from "./components/FooterComp.vue";
 import MeuHeader from "./components/HeaderComp.vue";
 </script>
 
@@ -8,6 +9,7 @@ import MeuHeader from "./components/HeaderComp.vue";
     <v-main class="v-main__wrap">
       <router-view />
     </v-main>
+    <FooterComp />
   </v-app>
 </template>
 
