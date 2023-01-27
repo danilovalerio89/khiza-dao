@@ -1,9 +1,24 @@
-<script setup></script>
-<template>
+<script setup>
+import { onMounted, ref } from "vue";
+import { ethereumStore } from "../stores/counter";
+
+const bol = ref(false);
+const store = ethereumStore();
+
+onMounted(async () => {
+  await store.getApi();
+  return (bol.value = true);
+});
+</script>
+
+<template v-if="bol">
   <div class="div_container">
     <h2>'NOME DA MOEDA'</h2>
     <h4>O Valor da 'MOEDA AQUI' hoje</h4>
-    <h3>R$110.500</h3>
+    <h3 class="text" v-if="bol">
+      R$ {{ store.myRequest[999].price.toFixed(2) }}
+    </h3>
+    <button class="text" @click="store.increment">MEU BOTAO</button>
   </div>
   <div class="div_picker">
     <button>Picker Dia Inicio</button>
@@ -13,33 +28,8 @@
 </template>
 
 <style scoped>
-.div_container {
-  margin-top: 3rem;
-  gap: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-.div_container > h2 {
-  font-size: 2rem;
-}
-.div_container > h3 {
-  font-size: 1.75rem;
-}
-
-.div_container > h4 {
-  font-size: 1rem;
-}
-
-.div_picker {
-  margin-top: 3rem;
-  gap: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (min-width: 768px) {
+.text {
+  color: purple;
+  background-color: pink;
 }
 </style>

@@ -10,7 +10,9 @@ import InputComp from "../components/InputComp.vue";
     <v-col cols="12">
       <InputComp />
     </v-col>
-    <CoinInfoToday />
+    <v-col align="center" justify="center">
+      <CoinInfoToday />
+    </v-col>
   </v-row>
   <!-- <v-row>
     <v-row align="center" justify="center">
