@@ -23,18 +23,9 @@ defineProps({
       >
         <v-icon size="x-large"> mdi-format-list-bulleted-square </v-icon>
       </v-btn>
-      <v-btn
-        v-if="listCoinRender == true"
-        fab
-        dark
-        color="white"
-        v-bind="props"
-      >
-        <v-icon size="x-large"> mdi-format-list-bulleted-square </v-icon>
-      </v-btn>
     </template>
 
-    <v-list theme="dark">
+    <v-list>
       <v-list-item v-for="item in item" :key="item.title">
         <v-list-item-title class="cursor">{{ item.title }}</v-list-item-title>
       </v-list-item>
