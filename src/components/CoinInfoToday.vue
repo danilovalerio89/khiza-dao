@@ -1,12 +1,18 @@
 <script setup>
 import { onMounted, ref } from "vue";
-import { ethereumStore } from "../stores/counter";
+import { useCoinTradeStore } from "../stores/coinsTradeStore";
+import formatNumber from "../utils/formatValue";
+import { useCoinsStore } from "../stores/coinNameStore";
+import { coinsData } from "../data/coinData";
+
+const coinsStore = useCoinsStore();
+coinsStore.stringToObject(coinsData);
 
 const bol = ref(false);
-const store = ethereumStore();
+const store = useCoinTradeStore();
 
 onMounted(async () => {
-  await store.getApi();
+  await store.getApi("BTC");
   return (bol.value = true);
 });
 </script>
@@ -16,9 +22,8 @@ onMounted(async () => {
     <h2>'NOME DA MOEDA'</h2>
     <h4>O Valor da 'MOEDA AQUI' hoje</h4>
     <h3 class="text" v-if="bol">
-      R$ {{ store.myRequest[999].price.toFixed(2) }}
+      {{ formatNumber(store.myRequest[999].price) }}
     </h3>
-    <button class="text" @click="store.increment">MEU BOTAO</button>
   </div>
   <div class="div_picker">
     <button>Picker Dia Inicio</button>
@@ -27,9 +32,4 @@ onMounted(async () => {
   </div>
 </template>
 
-<style scoped>
-.text {
-  color: purple;
-  background-color: pink;
-}
-</style>
+<style scoped></style>
