@@ -13,7 +13,7 @@ import HeaderComp from "./components/HeaderComp.vue";
       <router-view />
     </v-main>
 
-    <v-footer app>
+    <v-footer app color="black">
       <FooterComp />
     </v-footer>
   </v-app>
