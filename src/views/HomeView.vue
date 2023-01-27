@@ -1,14 +1,44 @@
 <script setup>
 // import MainContent from "../components/MainContent.vue";
-// import CoinSlide from "../components/CoinSlideBar.vue";
-// import CoinInfoToday from "../components/CoinInfoToday.vue";
-// import DetailInfo from "../components/DetailInfo.vue";
-
-// const buttons = ["Nome 1", "Nome 1", "Nome 1", "Nome 1"];
+import CoinInfoToday from "../components/CoinInfoToday.vue";
+import DetailInfo from "../components/DetailInfo.vue";
+import InputComp from "../components/InputComp.vue";
 </script>
 
 <template>
-  <div class="div"></div>
+  <v-row class="ma-0">
+    <v-col cols="12">
+      <InputComp />
+    </v-col>
+    <CoinInfoToday />
+  </v-row>
+  <!-- <v-row>
+    <v-row align="center" justify="center">
+      <v-col cols="12">
+        <InputComp />
+      </v-col>
+      <v-col cols="12">
+        <CoinInfoToday />
+      </v-col>
+    </v-row>
+  </v-row> -->
+
+  <!-- <v-row>
+    <v-col cols="6">
+      <CoinInfoToday />
+    </v-col>
+    <v-col cols="6">
+      <CoinInfoToday />
+    </v-col>
+    <v-col cols="6">
+      <CoinInfoToday />
+    </v-col>
+    <v-col cols="6">
+      <CoinInfoToday />
+    </v-col>
+  </v-row> -->
+
+  <DetailInfo />
 </template>
 
 <style scoped>

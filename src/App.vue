@@ -4,23 +4,19 @@ import HeaderComp from "./components/HeaderComp.vue";
 </script>
 
 <template>
-  <v-app class="v-app__wrap">
-    <v-app-bar app>
-      <HeaderComp />
-    </v-app-bar>
-
-    <v-main class="v-main__wrap">
+  <v-layout class="wrap">
+    <HeaderComp />
+    <v-main>
       <router-view />
     </v-main>
-
-    <v-footer app color="black">
-      <FooterComp />
-    </v-footer>
-  </v-app>
+    <FooterComp />
+  </v-layout>
 </template>
 
 <style>
-.v-app__wrap {
+.wrap {
   display: flex;
+  flex-direction: column;
+  widows: 100%;
 }
 </style>
