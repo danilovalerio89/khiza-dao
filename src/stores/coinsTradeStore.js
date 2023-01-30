@@ -1,39 +1,37 @@
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import { defineStore } from "pinia";
 import api from "../services/api";
-import { tickerTransform } from "../utils/tickerTransform";
+import tickerTransform from "../utils/tickerTransform";
+import verifyTypeTransaction from "../utils/verifyTypeTransaction";
 
 export const useCoinTradeStore = defineStore("counter", () => {
-  const myRequest = ref();
-
   const fetchedTicker = reactive({
     formattedTicker: {},
     rawTicker: {},
     isValid: Boolean,
   });
 
-  const fetchedData = reactive({
-    allTransactions: {},
-    maxValue: Number,
-    minValue: Number,
+  const fetchedTrades = reactive({
+    allTransactions: [],
+    buyTransactions: [],
+    sellTransactions: [],
     coin: "",
     validData: false,
   });
 
-  const getApi = async (coin = "ETH") => {
+  const getCoinTrades = async (coin = "ETH") => {
     await api
       .get(`${coin}/trades`)
       .then((response) => {
-        myRequest.value = response.data;
-        fetchedData.allTransactions = response.data;
-        fetchedData.validData = true;
-        fetchedData.coin = coin;
-        fetchedData.maxValue = Math.max(
-          ...response.data.map((item) => item.price)
-        );
-        fetchedData.minValue = Math.min(
-          ...response.data.map((item) => item.price)
-        );
+        fetchedTrades.allTransactions = response.data;
+        fetchedTrades.validData = true;
+        fetchedTrades.coin = coin;
+        fetchedTrades.buyTransactions = verifyTypeTransaction(
+          response.data
+        ).buy;
+        fetchedTrades.sellTransactions = verifyTypeTransaction(
+          response.data
+        ).sell;
 
         return response.data;
       })
@@ -51,5 +49,5 @@ export const useCoinTradeStore = defineStore("counter", () => {
       .catch((error) => console.log(error));
   };
 
-  return { getApi, myRequest, fetchedData, getCoinTicker, fetchedTicker };
+  return { getCoinTrades, fetchedTrades, getCoinTicker, fetchedTicker };
 });

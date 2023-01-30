@@ -1,6 +1,6 @@
 import currencyTransform from "./currencyTransform";
 
-export function tickerTransform(data) {
+function tickerTransform(data) {
   const date = data.ticker.date;
   const formattedDate = parseInt(date.toString().padEnd(3, 0));
   const newDate = new Date(formattedDate).toLocaleDateString("pt-BR");
@@ -17,3 +17,5 @@ export function tickerTransform(data) {
 
   return newObj;
 }
+
+export default tickerTransform;
