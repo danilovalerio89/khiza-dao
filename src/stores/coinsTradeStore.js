@@ -1,9 +1,16 @@
 import { reactive, ref } from "vue";
 import { defineStore } from "pinia";
 import api from "../services/api";
+import { tickerTransform } from "../utils/tickerTransform";
 
 export const useCoinTradeStore = defineStore("counter", () => {
   const myRequest = ref();
+
+  const fetchedTicker = reactive({
+    formattedTicker: {},
+    rawTicker: {},
+    isValid: Boolean,
+  });
 
   const fetchedData = reactive({
     allTransactions: {},
@@ -33,5 +40,16 @@ export const useCoinTradeStore = defineStore("counter", () => {
       .catch((error) => console.log(error));
   };
 
-  return { getApi, myRequest, fetchedData };
+  const getCoinTicker = async (coin = "ETH") => {
+    await api
+      .get(`${coin}/ticker`)
+      .then((response) => {
+        fetchedTicker.formattedTicker = tickerTransform(response.data);
+        fetchedTicker.rawTicker = response.data.ticker;
+        fetchedTicker.isValid = true;
+      })
+      .catch((error) => console.log(error));
+  };
+
+  return { getApi, myRequest, fetchedData, getCoinTicker, fetchedTicker };
 });

@@ -18,7 +18,6 @@ export const useCoinsStore = defineStore("coins", () => {
     coinsObj.value = newObj;
 
     return newObj;
-    // return coinsObj;
   };
   return { coinsObj, stringToObject };
 });

@@ -1,39 +1,24 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted } from "vue";
 import { useCoinTradeStore } from "../stores/coinsTradeStore";
-import formatNumber from "../utils/formatValue";
-import { useCoinsStore } from "../stores/coinNameStore";
-import { coinsData } from "../data/coinData";
 
 const store = useCoinTradeStore();
-const validData = ref(false);
-const lastTransactionValue = ref("");
-const coinsStore = useCoinsStore();
-const xxx = coinsStore.stringToObject(coinsData);
-
-const findKeyOrValue = (keyOrValue, obj) => {
-  for (let value in obj) {
-    if (
-      obj[value].toLowerCase() === keyOrValue.toLowerCase() ||
-      value === keyOrValue.toUpperCase()
-    ) {
-      return value;
-    }
-  }
-};
 
 onMounted(async () => {
-  await store.getApi();
-  lastTransactionValue.value = formatNumber(store.myRequest[999].price);
-  // console.log(store.fetchedData.coin);
-  findKeyOrValue("ETH", xxx);
-  return (validData.value = true);
+  await store.getCoinTicker();
+  return;
 });
 </script>
 
-<template v-if="validData">
+<template>
   <v-divider thickness="2" class="my-12"></v-divider>
-  <v-row justify="center" align="center">
+  <h1>Ultimas 24 horas</h1>
+  <v-row
+    v-if="store.fetchedTicker.isValid"
+    justify="center"
+    align="center"
+    class="my-4"
+  >
     <v-col cols="7">
       <v-card
         title="Ethereum"
@@ -41,46 +26,35 @@ onMounted(async () => {
         variant="tonal"
       >
         <template v-slot:text>
-          {{ lastTransactionValue }}
+          {{ store.fetchedTicker.formattedTicker.last }}
         </template>
       </v-card>
     </v-col>
     <v-col cols="6">
       <v-card
-        v-if="store.fetchedData.validData"
         title="Ethereum"
         subtitle="O maior valor de transação de Ethereum"
         variant="tonal"
       >
         <template v-slot:text>
-          {{ formatNumber(store.fetchedData.maxValue) }}
+          {{ store.fetchedTicker.formattedTicker.high }}
         </template>
       </v-card>
     </v-col>
     <v-col cols="6">
       <v-card
-        v-if="store.fetchedData.validData"
         title="Ethereum"
         subtitle="O menor valor de transação de Ethereum"
         variant="tonal"
       >
         <template v-slot:text>
-          {{ formatNumber(store.fetchedData.minValue) }}
+          {{ store.fetchedTicker.formattedTicker.low }}
         </template>
       </v-card>
     </v-col>
   </v-row>
-  <!-- <v-card
-    title="Ethereum"
-    subtitle="O valor ta última transação de Ethereum"
-    variant="tonal"
-  >
-    <template v-slot:text>
-      {{ lastTransactionValue }}
-    </template>
-  </v-card> -->
 
-  <div class="div_picker">
+  <div>
     <button>Picker Dia Inicio</button>
     <button>Picker Dia Final</button>
     <button>Procurar</button>
