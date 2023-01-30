@@ -6,8 +6,6 @@ function verifyTypeTransaction(arrTransactions) {
     item.type === "buy" ? buy.push(item) : sell.push(item)
   );
 
-  console.log(buy);
-  console.log(sell);
   return {
     buy,
     sell,
