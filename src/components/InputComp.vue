@@ -1,45 +1,34 @@
 <script setup>
-// import { ethereumStore } from "../stores/counter";
-// import api from "../services/api";
+import { ref } from "vue";
 
-// const getEth = ethereumStore();
-// console.log(getEth.ticker);
+const inputValue = ref("");
 
-// const date = new Date(1674787039000).toLocaleString("pt-BR", {
-//   year: "numeric",
-//   month: "numeric",
-//   day: "numeric",
-// });
-
-// const date2 = new Date("01/01/2023 00:00:01");
-// const date3 = date2.getTime();
-// console.log(date);
-// console.log(date2);
-// console.log("Date hoje", date3);
-
-// console.log("Api", "1674844687");
-
-// 1359318745
-// 1357005600000
-// const date4 = new Date(1641006000000).toLocaleString("pt-BR", {
-//   year: "numeric",
-//   month: "numeric",
-//   day: "numeric",
-// });
-
-// console.log(date4);
+const handleInput = () => {
+  console.log(inputValue.value);
+  inputValue.value = "";
+};
 </script>
 
 <template>
   <v-container align="center" justify="center" class="justTest">
-    <input placeholder="meu input" class="input" />
-    <button class="button" @click="getEth.getEthereum">Procurar</button>
+    <p class="color">Meu valor: {{ inputValue }}</p>
+    <input
+      placeholder="meu input"
+      class="input"
+      v-model="inputValue"
+      @input="(event) => (inputValue = event.target.value)"
+    />
+    <button class="button" @click="handleInput">Procurar</button>
   </v-container>
 </template>
 
 <style scoped>
+.color {
+  color: black;
+}
 .input {
   border: 1px solid red;
+  color: black;
 }
 .justTest {
   background-color: aliceblue;
