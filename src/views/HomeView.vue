@@ -2,7 +2,6 @@
 import { onMounted } from "vue";
 import CoinInfosTrades from "../components/CoinInfosTrades.vue";
 import CoinInfosTicker from "../components/CoinInfosTicker.vue";
-import DetailInfo from "../components/DetailInfo.vue";
 import InputComp from "../components/InputComp.vue";
 import { useCoinTradeStore } from "../stores/coinsTradeStore";
 
@@ -10,6 +9,7 @@ const store = useCoinTradeStore();
 onMounted(async () => {
   await store.getCoinTicker();
   await store.getCoinTrades();
+  console.log(store.fetchedTrades.validData);
 });
 </script>
 
@@ -29,14 +29,15 @@ onMounted(async () => {
     <v-col
       align="center"
       justify="center"
-      v-if="store.fetchedTicker.isValid"
       cols="12"
+      v-if="store.fetchedTrades.validData"
     >
-      <CoinInfosTrades :store="store" />
+      <CoinInfosTrades
+        :store="store"
+        :transactions="store.fetchedTrades.allTransactions"
+      />
     </v-col>
   </v-row>
-
-  <DetailInfo />
 </template>
 
 <style scoped></style>

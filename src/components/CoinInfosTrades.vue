@@ -1,22 +1,33 @@
 <script setup>
-import { computed, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import calcTransactions from "../utils/calcTransactions";
+import currencyTransform from "../utils/currencyTransform";
+import dateTransform from "../utils/dateTransform";
 
 const props = defineProps({
   store: {
     fetchedTicker: {},
     fetchedTrades: {},
   },
+  transactions: {},
 });
+onMounted(() => {
+  configPagination.initPage();
+});
+
+const reverseArr = (arrObj) => {
+  const copyArr = [...arrObj];
+  const newArr = copyArr.reverse();
+  return newArr;
+};
 
 const configPagination = reactive({
   page: 1,
-  pageSize: 20,
-  list: [],
+  pageSize: 25,
+  list: reverseArr(props.transactions),
   listCount: 0,
   historyList: [],
   initPage: () => {
-    configPagination.list = props.store.fetchedTrades.allTransactions;
     configPagination.listCount = configPagination.list.length;
     if (configPagination.listCount < configPagination.pageSize) {
       configPagination.historyList = configPagination.list;
@@ -40,28 +51,28 @@ const configPagination = reactive({
     return Math.ceil(configPagination.listCount / configPagination.pageSize);
   }),
 });
-
-configPagination.initPage();
 </script>
 
 <template>
-  <div v-if="store.fetchedTrades.validData">
-    <h3>Trade Type Buy</h3>
-    <p>
-      Total Comprado:
+  <div>
+    <h2>
+      Valor referente as ultimas
+      {{ store.fetchedTrades.allTransactions.length }} transações
+    </h2>
+    <h3>
+      Valor Total Comprado:
       {{ calcTransactions(store.fetchedTrades.buyTransactions) }}
-    </p>
-    <p>
-      Valor Vendido:
+    </h3>
+    <h3>
+      Valor Total Vendido:
       {{ calcTransactions(store.fetchedTrades.sellTransactions) }}
-    </p>
-    <p>Total de trades: {{ store.fetchedTrades.allTransactions.length }}</p>
+    </h3>
   </div>
-  <!-- <v-divider thickness="2" class="my-12"></v-divider> -->
 
-  <v-container fluid>
-    <v-row dense>
+  <v-container class="mt-4 mb-4 mx-auto">
+    <v-row align="center" justify="center" class="w-100">
       <v-pagination
+        class="w-100"
         v-model="configPagination.page"
         :length="configPagination.pages"
         prev-icon="mdi-menu-left"
@@ -69,19 +80,37 @@ configPagination.initPage();
         @click="configPagination.updatePage(configPagination.page)"
       >
       </v-pagination>
+
       <v-card
         class="mt-4 mb-4 mx-auto"
-        max-width="200"
+        min-width="200"
+        min-height="120"
         density="compact"
         v-for="(item, index) in configPagination.historyList"
         :key="index"
       >
-        <v-card-text class="text--primary">
-          <div>{{ item }}</div>
-        </v-card-text>
+        <v-col>
+          <v-card-text class="text--primary display_paragraphs">
+            <p>Data: <v-spacer></v-spacer>{{ dateTransform(item.date) }}</p>
+            <p>Tid: <v-spacer></v-spacer> {{ item.tid }}</p>
+            <p>Quant: <v-spacer></v-spacer>{{ item.amount }}</p>
+            <p class="text-capitalize">
+              Tipo: <v-spacer></v-spacer>{{ item.type }}
+            </p>
+            <p>
+              Preço: <v-spacer></v-spacer
+              >{{ currencyTransform(parseInt(item.price)) }}
+            </p>
+            <p>
+              Pago: <v-spacer></v-spacer
+              >{{ currencyTransform(item.price * item.amount) }}
+            </p>
+          </v-card-text>
+        </v-col>
       </v-card>
 
       <v-pagination
+        class="w-100"
         v-model="configPagination.page"
         :length="configPagination.pages"
         prev-icon="mdi-menu-left"
@@ -92,3 +121,9 @@ configPagination.initPage();
     </v-row>
   </v-container>
 </template>
+
+<style scoped>
+.display_paragraphs > p {
+  display: flex;
+}
+</style>
