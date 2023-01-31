@@ -2,7 +2,7 @@
 import { computed, reactive } from "vue";
 import calcTransactions from "../utils/calcTransactions";
 
-defineProps({
+const props = defineProps({
   store: {
     fetchedTicker: {},
     fetchedTrades: {},
@@ -12,35 +12,11 @@ defineProps({
 const configPagination = reactive({
   page: 1,
   pageSize: 20,
-  list: [
-    "Danilo1",
-    "Danilo2",
-    "Danilo3",
-    "Danilo4",
-    "Danilo5",
-    "Danilo6",
-    "Danilo7",
-    "Danilo8",
-    "Danilo9",
-    "Danilo21",
-    "Danilo31",
-    "Danilo41",
-    "Danilo51",
-    "Danilo61",
-    "Danilo71",
-    "Danilo81",
-    "Danilo11",
-    "Danilo21",
-    "Danilo31",
-    "Danilo41",
-    "Danilo51",
-    "Danilo61",
-    "Danilo71",
-    "Danilo81",
-  ],
+  list: [],
   listCount: 0,
   historyList: [],
   initPage: () => {
+    configPagination.list = props.store.fetchedTrades.allTransactions;
     configPagination.listCount = configPagination.list.length;
     if (configPagination.listCount < configPagination.pageSize) {
       configPagination.historyList = configPagination.list;
@@ -69,8 +45,6 @@ configPagination.initPage();
 </script>
 
 <template>
-  <v-divider thickness="2" class="mt-12"></v-divider>
-
   <div v-if="store.fetchedTrades.validData">
     <h3>Trade Type Buy</h3>
     <p>
@@ -83,35 +57,38 @@ configPagination.initPage();
     </p>
     <p>Total de trades: {{ store.fetchedTrades.allTransactions.length }}</p>
   </div>
-  <v-divider thickness="2" class="my-12"></v-divider>
+  <!-- <v-divider thickness="2" class="my-12"></v-divider> -->
 
-  <div class="text-center">
-    <v-pagination
-      v-model="configPagination.page"
-      :length="configPagination.pages"
-      prev-icon="mdi-menu-left"
-      next-icon="mdi-menu-right"
-      @click="configPagination.updatePage(configPagination.page)"
-    >
-    </v-pagination>
-    <v-card
-      class="mt-4 mb-4 mx-auto"
-      max-width="200"
-      v-for="(item, index) in configPagination.historyList"
-      :key="index"
-    >
-      <v-card-text class="text--primary">
-        <div>{{ item }}</div>
-      </v-card-text>
-    </v-card>
+  <v-container fluid>
+    <v-row dense>
+      <v-pagination
+        v-model="configPagination.page"
+        :length="configPagination.pages"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+        @click="configPagination.updatePage(configPagination.page)"
+      >
+      </v-pagination>
+      <v-card
+        class="mt-4 mb-4 mx-auto"
+        max-width="200"
+        density="compact"
+        v-for="(item, index) in configPagination.historyList"
+        :key="index"
+      >
+        <v-card-text class="text--primary">
+          <div>{{ item }}</div>
+        </v-card-text>
+      </v-card>
 
-    <v-pagination
-      v-model="configPagination.page"
-      :length="configPagination.pages"
-      prev-icon="mdi-menu-left"
-      next-icon="mdi-menu-right"
-      @click="configPagination.updatePage(configPagination.page)"
-    >
-    </v-pagination>
-  </div>
+      <v-pagination
+        v-model="configPagination.page"
+        :length="configPagination.pages"
+        prev-icon="mdi-menu-left"
+        next-icon="mdi-menu-right"
+        @click="configPagination.updatePage(configPagination.page)"
+      >
+      </v-pagination>
+    </v-row>
+  </v-container>
 </template>
