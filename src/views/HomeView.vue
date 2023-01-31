@@ -9,7 +9,6 @@ const store = useCoinTradeStore();
 onMounted(async () => {
   await store.getCoinTicker();
   await store.getCoinTrades();
-  console.log(store.fetchedTrades.validData);
 });
 </script>
 
