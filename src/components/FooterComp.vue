@@ -3,8 +3,8 @@ const links = ["Home", "About Us", "Team", "Services", "Blog", "Contact Us"];
 </script>
 
 <template>
-  <v-footer color="black" class="relative">
-    <v-row justify="space-evenly">
+  <v-footer color="black">
+    <v-row justify="space-evenly" no-gutters>
       <v-btn v-for="link in links" :key="link" class="my-2" variant="text">
         {{ link }}
       </v-btn>
@@ -15,8 +15,4 @@ const links = ["Home", "About Us", "Team", "Services", "Blog", "Contact Us"];
   </v-footer>
 </template>
 
-<style>
-.relative {
-  position: relative;
-}
-</style>
+<style></style>
