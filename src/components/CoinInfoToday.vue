@@ -1,13 +1,52 @@
 <script setup>
-import { onMounted, ref, reactive } from "vue";
+import { onMounted, ref, reactive, computed } from "vue";
 import { useCoinTradeStore } from "../stores/coinsTradeStore";
-import calcTransactions from "../utils/calcTransactions";
+// import calcTransactions from "../utils/calcTransactions";
 
 const store = useCoinTradeStore();
 const reversedRender = reactive({
   buyTransactions: [],
   sellTransactionsReverse: {},
   allTransactionsReverse: {},
+});
+const configPagination = reactive({
+  page: 1,
+  pageSize: 4,
+  list: [
+    "Danilo1",
+    "Danilo2",
+    "Danilo3",
+    "Danilo4",
+    "Danilo5",
+    "Danilo6",
+    "Danilo7",
+    "Danilo8",
+  ],
+  listCount: 0,
+  historyList: [],
+  initPage: () => {
+    configPagination.listCount = configPagination.list.length;
+    if (configPagination.listCount < configPagination.pageSize) {
+      configPagination.historyList = configPagination.list;
+    } else {
+      configPagination.historyList = configPagination.list.slice(
+        0,
+        configPagination.pageSize
+      );
+    }
+  },
+  updatePage: (pageIndex) => {
+    let start = (pageIndex - 1) * configPagination.pageSize;
+    let end = pageIndex * configPagination.pageSize;
+
+    configPagination.historyList = configPagination.list.slice(start, end);
+    configPagination.page = pageIndex;
+  },
+  pages: computed(() => {
+    if (configPagination.pageSize == null || configPagination.listCount == null)
+      return 0;
+    return Math.ceil(configPagination.listCount / configPagination.pageSize);
+  }),
 });
 
 onMounted(async () => {
@@ -19,17 +58,16 @@ onMounted(async () => {
   reversedRender.buyTransactions = reversedBuyCopy.reverse();
   reversedRender.sellTransactionsReverse = reversedSellCopy.reverse();
   reversedRender.allTransactionsReverse = reversedAllCopy.reverse();
-  console.log(store.fetchedTrades.buyTransactions);
-  console.log(reversedRender.buyTransactions);
-});
 
-const tab = ref();
+  configPagination.initPage();
+  // console.log(configPagination.)
+});
 </script>
 
 <template>
   <v-divider thickness="2" class="my-12"></v-divider>
-  <h1>Ultimas 24 horas</h1>
-  <v-row
+  <!-- <h1>Ultimas 24 horas</h1> -->
+  <!-- <v-row
     v-if="store.fetchedTicker.isValid"
     justify="center"
     align="center"
@@ -68,16 +106,16 @@ const tab = ref();
         </template>
       </v-card>
     </v-col>
-  </v-row>
+  </v-row> -->
 
-  <div>
+  <!-- <div>
     <button>Picker Dia Inicio</button>
     <button>Picker Dia Final</button>
     <button>Procurar</button>
-  </div>
+  </div> -->
   <v-divider thickness="2" class="mt-12"></v-divider>
 
-  <div v-if="store.fetchedTrades.validData">
+  <!-- <div v-if="store.fetchedTrades.validData">
     <h3>Trade Type Buy</h3>
     <p>
       Total Comprado:
@@ -88,39 +126,30 @@ const tab = ref();
       {{ calcTransactions(store.fetchedTrades.sellTransactions) }}
     </p>
     <p>Total de trades: {{ store.fetchedTrades.allTransactions.length }}</p>
-  </div>
+  </div> -->
   <v-divider thickness="2" class="my-12"></v-divider>
-  <v-card>
-    <v-tabs v-model="tab" bg-color="primary" align-tabs="center" grow>
-      <v-tab value="one">Buy Trades</v-tab>
-      <v-tab value="two">Sell Trades</v-tab>
-      <v-tab value="three">Total Trades</v-tab>
-    </v-tabs>
 
-    <v-card-text v-if="store.fetchedTrades.validData">
-      <v-window v-model="tab">
-        <v-window-item value="one">
-          <v-expansion-panels>
-            <v-expansion-panel-title> Aaaa</v-expansion-panel-title>
-            <v-expansion-panel>
-              <template v-slot:title>
-                <p>{{ store.fetchedTrades.allTransactions[999].date }}</p>
-                <v-spacer></v-spacer>
-                {{ store.fetchedTicker.formattedTicker.last }}
-              </template>
-              <template v-slot:text>
-                {{ store.fetchedTicker.formattedTicker.last }}
-              </template>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-window-item>
+  <div class="text-center">
+    <v-card
+      class="mt-4 mb-4 mx-auto"
+      max-width="200"
+      v-for="(item, index) in configPagination.historyList"
+      :key="index"
+    >
+      <v-card-text class="text--primary">
+        <div>{{ item }}</div>
+      </v-card-text>
+    </v-card>
 
-        <v-window-item value="two"> Two </v-window-item>
-
-        <v-window-item value="three"> Three </v-window-item>
-      </v-window>
-    </v-card-text>
-  </v-card>
+    <v-pagination
+      v-model="configPagination.page"
+      :length="configPagination.pages"
+      prev-icon="mdi-menu-left"
+      next-icon="mdi-menu-right"
+      @click="configPagination.updatePage(configPagination.page)"
+    >
+    </v-pagination>
+  </div>
 </template>
 
 <style scoped>
