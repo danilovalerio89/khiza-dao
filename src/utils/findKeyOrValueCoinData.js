@@ -4,11 +4,10 @@ function findKeyOrValue(keyOrValue, obj) {
       obj[value].toLowerCase() === keyOrValue.toLowerCase() ||
       value === keyOrValue.toUpperCase()
     ) {
-      return value;
-    } else {
-      return "Coin not found.";
+      return { [value]: obj[value] };
     }
   }
+  return false;
 }
 
 export default findKeyOrValue;

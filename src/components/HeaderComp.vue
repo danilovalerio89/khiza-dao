@@ -6,7 +6,7 @@ const items = [{ title: "About" }, { title: "Coins" }, { title: "Help" }];
 <template>
   <v-app-bar app>
     <v-toolbar class="w-100" color="black">
-      <v-toolbar-title class="myColor">BitForYou</v-toolbar-title>
+      <v-toolbar-title>BitForYou</v-toolbar-title>
 
       <MenuList :item="items" />
 
@@ -20,13 +20,6 @@ const items = [{ title: "About" }, { title: "Coins" }, { title: "Help" }];
 </template>
 
 <style scoped>
-.cursor {
-  cursor: pointer;
-}
-.title {
-  color: white;
-}
-
 .gap {
   gap: 16px;
 }

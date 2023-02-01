@@ -1,7 +1,7 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 
-export const useCoinsStore = defineStore("coins", () => {
+export const useCoinNameStore = defineStore("coins", () => {
   const coinsObj = ref({});
 
   const stringToObject = (coins) => {
