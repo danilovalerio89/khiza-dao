@@ -26,10 +26,10 @@ const handleInput = () => {
 </script>
 
 <template>
-  <v-container align="center" justify="center" class="justTest">
-    <p class="color">Meu valor: {{ inputValue }}</p>
+  <v-container align="center" justify="center">
+    <h2 class="color">Procurar outra moeda</h2>
     <input
-      placeholder="meu input"
+      placeholder="Ex: Bitcoin/BTC"
       class="input"
       v-model="inputValue"
       @input="(event) => (inputValue = event.target.value)"
@@ -39,7 +39,7 @@ const handleInput = () => {
 
   <v-container class="mt-4 mb-4 mx-auto">
     <v-row align="center" justify="center" class="w-100">
-      <v-col cols="6">
+      <v-col cols="3">
         <p class="text-center text-left">
           De: {{ startDate.toLocaleDateString("pt-BR") }}
         </p>
@@ -50,15 +50,14 @@ const handleInput = () => {
         />
       </v-col>
 
-      <v-col cols="6">
+      <v-col cols="3">
         <p class="text-center">
           Até: {{ endDate.toLocaleDateString("pt-BR") }}
         </p>
         <Datepicker v-model="endDate" :style="inputStyle" />
       </v-col>
     </v-row>
-
-    <v-divider></v-divider>
+    <v-divider class="mt-12"></v-divider>
   </v-container>
 </template>
 
@@ -67,13 +66,22 @@ const handleInput = () => {
   color: white;
 }
 .input {
-  border: 1px solid red;
-  color: black;
+  margin: 15px 0;
+  border: 1px solid white;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  padding: 5px 0 5px 16px;
+  color: white;
 }
 
 .button {
-  background-color: red;
-  color: white;
-  padding: 10px;
+  background-color: white;
+  border-radius: 0 5px 5px 0;
+  border: 1px solid white;
+  color: black;
+  padding: 5px;
+}
+.button:hover {
+  background-color: rgb(212, 212, 212);
 }
 </style>

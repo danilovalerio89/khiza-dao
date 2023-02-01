@@ -8,47 +8,57 @@ defineProps({
 </script>
 
 <template>
-  <h2>Informações referente as últimas 24 horas</h2>
-  <h1>Ethereum</h1>
-  <v-row justify="center" align="center" class="my-1">
-    <v-col cols="12">
-      <div class="div_transactions">
-        <span>Última</span>
-        <p>{{ store.fetchedTicker.formattedTicker.last }}</p>
-      </div>
-    </v-col>
-    <v-divider thickness="1"></v-divider>
-    <v-col cols="12">
-      <div class="div_transactions">
-        <p>Menor</p>
-        <p>{{ store.fetchedTicker.formattedTicker.low }}</p>
-      </div>
-    </v-col>
-    <v-divider thickness="1"></v-divider>
-    <v-col cols="12">
-      <div class="div_transactions">
-        <span>Maior</span>
-        <p>{{ store.fetchedTicker.formattedTicker.high }}</p>
-      </div>
-    </v-col>
-    <v-divider thickness="1"></v-divider>
-    <v-col cols="12">
-      <div class="div_transactions">
-        <span>Volume</span>
-        <p>
-          ({{ store.fetchedTrades.coin }})
-          {{ store.fetchedTicker.formattedTicker.volume }}
-        </p>
-      </div>
-    </v-col>
-    <v-divider thickness="1"></v-divider>
-  </v-row>
+  <v-container>
+    <h2 class="text-h5">Informações referente as últimas 24 horas</h2>
+    <h1 class="text-uppercase text-h3 font-weight-black my-6">Ethereum</h1>
+    <v-row justify="center" align="center">
+      <v-col cols="12">
+        <div class="d-flex flex-wrap justify-space-between w-75">
+          <p class="text-subtitle-1">Última</p>
+          <p class="text-subtitle-1 font-weight-medium">
+            {{ store.fetchedTicker.formattedTicker.last }}
+          </p>
+          <v-divider thickness="1"></v-divider>
+        </div>
+      </v-col>
+      <v-col cols="12">
+        <div class="d-flex flex-wrap justify-space-between w-75">
+          <p class="text-subtitle-1">Menor</p>
+          <p class="text-subtitle-1 font-weight-medium">
+            {{ store.fetchedTicker.formattedTicker.low }}
+          </p>
+          <v-divider thickness="1"></v-divider>
+        </div>
+      </v-col>
+      <v-col cols="12">
+        <div class="d-flex flex-wrap justify-space-between w-75">
+          <p class="text-subtitle-1">Maior</p>
+          <p class="text-subtitle-1 font-weight-medium">
+            {{ store.fetchedTicker.formattedTicker.high }}
+          </p>
+          <v-divider thickness="1"></v-divider>
+        </div>
+      </v-col>
+      <v-col cols="12">
+        <div class="d-flex flex-wrap justify-space-between w-75">
+          <p class="text-subtitle-1">Volume</p>
+          <p class="text-subtitle-1 font-weight-medium">
+            ({{ store.fetchedTrades.coin }})
+            {{ store.fetchedTicker.formattedTicker.volume }}
+          </p>
+          <v-divider thickness="1"></v-divider>
+        </div>
+      </v-col>
+      <!-- <v-divider thickness="1"></v-divider> -->
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped>
 .div_transactions {
-  width: 80%;
+  /* width: 80%;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: space-between; */
 }
 </style>

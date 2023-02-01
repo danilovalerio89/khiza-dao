@@ -14,9 +14,6 @@ onMounted(async () => {
 
 <template>
   <v-row class="ma-0">
-    <v-col cols="12">
-      <InputComp />
-    </v-col>
     <v-col
       align="center"
       justify="center"
@@ -24,6 +21,9 @@ onMounted(async () => {
       cols="12"
     >
       <CoinInfosTicker :store="store" />
+    </v-col>
+    <v-col cols="12">
+      <InputComp />
     </v-col>
     <v-col
       align="center"
