@@ -1,25 +1,35 @@
 <script setup>
-import { onMounted, reactive } from "vue";
-import CoinInfosTrades from "../components/CoinInfosTrades.vue";
-import CoinInfosTicker from "../components/CoinInfosTicker.vue";
-import InputComp from "../components/InputComp.vue";
 import { coinsData } from "../data/coinData";
-import findKeyOrValue from "../utils/findKeyOrValueCoinData";
-import { useCoinTradeStore } from "../stores/coinsTradeStore";
+import { onMounted, reactive, provide, ref } from "vue";
+import CoinInfosTicker from "../components/CoinInfosTicker.vue";
+// import CoinInfosTrades from "../components/CoinInfosTrades.vue";
+// import SearchComp from "../components/SearchComp.vue";
+import coinExists from "../utils/coinExists";
+import { useCoinStore } from "../stores/coinsStore";
 import { useCoinNameStore } from "../stores/coinNameStore";
 
-const store = useCoinTradeStore();
-const coinName = useCoinNameStore();
-const coin = reactive({
+const coinStore = useCoinStore();
+const coinNameStore = useCoinNameStore();
+
+const filterdCoin = reactive({
   found: {},
 });
 
+const inputValue = ref("");
+// const coinSystem = ref();
+
 onMounted(async () => {
-  await store.getCoinTicker();
-  await store.getCoinTrades();
-  coinName.stringToObject(coinsData);
-  coin.found = findKeyOrValue(store.fetchedTrades.coin, coinName.coinsObj);
+  await coinStore.getCoinTicker();
+  await coinStore.getCoinTrades();
+  coinNameStore.formatDataInObj(coinsData);
+  filterdCoin.found = coinExists(
+    coinStore.fetchedTrades.coin,
+    coinNameStore.coinsExistsInAPI
+  );
+
+  console.log(filterdCoin);
 });
+provide("inputValue", inputValue);
 </script>
 
 <template>
@@ -27,15 +37,15 @@ onMounted(async () => {
     <v-col
       align="center"
       justify="center"
-      v-if="store.fetchedTicker.isValid"
+      v-if="coinStore.fetchedTicker.isValid"
       cols="12"
     >
-      <CoinInfosTicker :store="store" :coinName="coin.found" />
+      <CoinInfosTicker :coinStore="coinStore" :coinName="filterdCoin.found" />
     </v-col>
-    <v-col cols="12">
-      <InputComp />
-    </v-col>
-    <v-col
+    <!-- <v-col cols="12">
+      <SearchComp />
+    </v-col> -->
+    <!-- <v-col
       align="center"
       justify="center"
       cols="12"
@@ -45,8 +55,6 @@ onMounted(async () => {
         :store="store"
         :transactions="store.fetchedTrades.allTransactions"
       />
-    </v-col>
+    </v-col> -->
   </v-row>
 </template>
-
-<style scoped></style>

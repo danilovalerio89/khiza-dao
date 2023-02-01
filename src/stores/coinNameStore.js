@@ -1,23 +1,23 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 
-export const useCoinNameStore = defineStore("coins", () => {
-  const coinsObj = ref({});
+export const useCoinNameStore = defineStore("coinsObjAPI", () => {
+  const coinsExistsInAPI = ref({});
 
-  const stringToObject = (coins) => {
-    const newObj = {};
-    const newString = coins.replace(/(\r\n|\n|\r)/gm, "-!-");
-    const stringToArray = newString.split("-!-");
+  const formatDataInObj = (coins) => {
+    const coinObj = {};
+    const stringFormatted = coins.replace(/(\r\n|\n|\r)/gm, "-!-");
+    const stringToArray = stringFormatted.split("-!-");
 
     for (let i = 0; i < stringToArray.length; i++) {
       let key = stringToArray[i].split(":");
 
-      newObj[key[0].replace(/\s/g, "")] = key[1].replace(/\s/g, "");
+      coinObj[key[0].trim()] = key[1].trim();
     }
 
-    coinsObj.value = newObj;
+    coinsExistsInAPI.value = coinObj;
 
-    return newObj;
+    return;
   };
-  return { coinsObj, stringToObject };
+  return { coinsExistsInAPI, formatDataInObj };
 });

@@ -4,7 +4,7 @@ import api from "../services/api";
 import tickerTransform from "../utils/tickerTransform";
 import verifyTypeTransaction from "../utils/verifyTypeTransaction";
 
-export const useCoinTradeStore = defineStore("counter", () => {
+export const useCoinStore = defineStore("coinStore", () => {
   const fetchedTicker = reactive({
     formattedTicker: {},
     rawTicker: {},

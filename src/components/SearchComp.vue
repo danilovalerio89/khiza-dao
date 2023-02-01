@@ -1,6 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { ref, inject } from "vue";
 import Datepicker from "vue3-datepicker";
+import { coinsData } from "../data/coinData";
+import { useCoinNameStore } from "../stores/coinNameStore";
+import findKeyOrValue from "../utils/coinExists";
 
 const inputStyle = ref({
   display: "flex",
@@ -10,18 +13,31 @@ const inputStyle = ref({
   padding: "8px",
   margin: "15px auto",
 });
-
 const inputFormat = ref("dd-MM-yyyy");
 const startDate = ref(new Date());
 const endDate = ref(new Date());
 
-const inputValue = ref("");
+const newValue = ref("");
+const inputValue = inject("inputValue");
+const verifyCoin = ref("");
 
 const handleInput = () => {
-  if (startDate.value > endDate.value) {
-    return console.log("Errooooooooo");
+  const verifyInputEmpty = newValue.value.length;
+  if (verifyInputEmpty === 0) {
+    console.log("Aqui");
+    return;
   }
-  return console.log("Deeeeeeeeeeeeeu");
+  // const coinKeyOrValue = newValue.value;
+  const coinStore = useCoinNameStore();
+  console.log(coinStore.coinsObj);
+  // const verifyCoinExists = findKeyOrValue(coinKeyOrValue, )
+
+  if (findKeyOrValue(newValue, coinsData)) {
+    console.log("existe");
+  }
+  console.log(verifyCoin);
+  inputValue.value = newValue.value;
+  return (newValue.value = "");
 };
 </script>
 
@@ -31,8 +47,8 @@ const handleInput = () => {
     <input
       placeholder="Ex: Bitcoin/BTC"
       class="input"
-      v-model="inputValue"
-      @input="(event) => (inputValue = event.target.value)"
+      v-model="newValue"
+      @input="(event) => (newValue = event.target.value)"
     />
     <button class="button" @click="handleInput()">Procurar</button>
   </v-container>

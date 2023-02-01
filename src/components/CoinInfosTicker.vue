@@ -2,12 +2,13 @@
 import { computed, ref } from "vue";
 import { useDisplay } from "vuetify";
 const props = defineProps({
-  store: {
+  coinStore: {
     fetchedTicker: {},
     fetchedTrades: {},
   },
   coinName: {},
 });
+
 const { name } = useDisplay();
 const divClass = computed(() => {
   return "d-flex flex-wrap justify-space-between";
@@ -30,9 +31,9 @@ const changeCol = computed(() => {
   return { changeCol };
 });
 
-const prevName = ref("");
+const prevName = ref("Ethereum");
 
-const coin = () => {
+const coinRenderName = () => {
   if (props.coinName) {
     prevName.value = Object.values(props.coinName)[0];
     return Object.values(props.coinName)[0];
@@ -45,14 +46,14 @@ const coin = () => {
   <v-container>
     <h2 class="text-h5">Informações referente as últimas 24 horas</h2>
     <h1 class="text-uppercase text-h3 font-weight-black my-6">
-      {{ coin() }}
+      {{ coinRenderName() }}
     </h1>
     <v-row justify="center" align="center">
       <v-col :cols="changeCol">
         <div :class="divClass">
           <p class="text-subtitle-1">Última</p>
           <p class="text-subtitle-1 font-weight-medium">
-            {{ store.fetchedTicker.formattedTicker.last }}
+            {{ coinStore.fetchedTicker.formattedTicker.last }}
           </p>
           <v-divider thickness="1"></v-divider>
         </div>
@@ -61,7 +62,7 @@ const coin = () => {
         <div :class="divClass">
           <p class="text-subtitle-1">Menor</p>
           <p class="text-subtitle-1 font-weight-medium">
-            {{ store.fetchedTicker.formattedTicker.low }}
+            {{ coinStore.fetchedTicker.formattedTicker.low }}
           </p>
           <v-divider thickness="1"></v-divider>
         </div>
@@ -70,7 +71,7 @@ const coin = () => {
         <div :class="divClass">
           <p class="text-subtitle-1">Maior</p>
           <p class="text-subtitle-1 font-weight-medium">
-            {{ store.fetchedTicker.formattedTicker.high }}
+            {{ coinStore.fetchedTicker.formattedTicker.high }}
           </p>
           <v-divider thickness="1"></v-divider>
         </div>
@@ -79,8 +80,8 @@ const coin = () => {
         <div :class="divClass">
           <p class="text-subtitle-1">Volume</p>
           <p class="text-subtitle-1 font-weight-medium">
-            ({{ store.fetchedTrades.coin }})
-            {{ store.fetchedTicker.formattedTicker.volume }}
+            ({{ coinStore.fetchedTrades.coin }})
+            {{ coinStore.fetchedTicker.formattedTicker.volume }}
           </p>
           <v-divider thickness="1"></v-divider>
         </div>
