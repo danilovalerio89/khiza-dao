@@ -1,22 +1,21 @@
 <script setup>
 import { coinsData } from "../data/coinData";
-import { onMounted, reactive, provide, ref } from "vue";
+import { onMounted, reactive, provide } from "vue";
 import CoinInfosTicker from "../components/CoinInfosTicker.vue";
-// import CoinInfosTrades from "../components/CoinInfosTrades.vue";
-// import SearchComp from "../components/SearchComp.vue";
+import CoinInfosTrades from "../components/CoinInfosTrades.vue";
+import SearchComp from "../components/SearchComp.vue";
 import coinExists from "../utils/coinExists";
 import { useCoinStore } from "../stores/coinsStore";
 import { useCoinNameStore } from "../stores/coinNameStore";
 
 const coinStore = useCoinStore();
 const coinNameStore = useCoinNameStore();
-
 const filterdCoin = reactive({
   found: {},
 });
-
-const inputValue = ref("");
-// const coinSystem = ref();
+const inputValue = reactive({
+  coin: {},
+});
 
 onMounted(async () => {
   await coinStore.getCoinTicker();
@@ -26,10 +25,9 @@ onMounted(async () => {
     coinStore.fetchedTrades.coin,
     coinNameStore.coinsExistsInAPI
   );
-
-  console.log(filterdCoin);
 });
 provide("inputValue", inputValue);
+//////////////////////////////////////////////
 </script>
 
 <template>
@@ -42,19 +40,19 @@ provide("inputValue", inputValue);
     >
       <CoinInfosTicker :coinStore="coinStore" :coinName="filterdCoin.found" />
     </v-col>
-    <!-- <v-col cols="12">
-      <SearchComp />
-    </v-col> -->
-    <!-- <v-col
+    <v-col cols="12">
+      <SearchComp :coinsInApi="coinNameStore" />
+    </v-col>
+    <v-col
       align="center"
       justify="center"
       cols="12"
-      v-if="store.fetchedTrades.validData"
+      v-if="coinStore.fetchedTrades.validData"
     >
       <CoinInfosTrades
-        :store="store"
-        :transactions="store.fetchedTrades.allTransactions"
+        :store="coinStore"
+        :transactions="coinStore.fetchedTrades.allTransactions"
       />
-    </v-col> -->
+    </v-col>
   </v-row>
 </template>

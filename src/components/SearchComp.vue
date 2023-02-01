@@ -1,9 +1,11 @@
 <script setup>
 import { ref, inject } from "vue";
 import Datepicker from "vue3-datepicker";
-import { coinsData } from "../data/coinData";
-import { useCoinNameStore } from "../stores/coinNameStore";
-import findKeyOrValue from "../utils/coinExists";
+import coinExists from "../utils/coinExists";
+
+const props = defineProps({
+  coinsInApi: {},
+});
 
 const inputStyle = ref({
   display: "flex",
@@ -19,26 +21,21 @@ const endDate = ref(new Date());
 
 const newValue = ref("");
 const inputValue = inject("inputValue");
-const verifyCoin = ref("");
 
 const handleInput = () => {
   const verifyInputEmpty = newValue.value.length;
   if (verifyInputEmpty === 0) {
-    console.log("Aqui");
     return;
   }
-  // const coinKeyOrValue = newValue.value;
-  const coinStore = useCoinNameStore();
-  console.log(coinStore.coinsObj);
-  // const verifyCoinExists = findKeyOrValue(coinKeyOrValue, )
-
-  if (findKeyOrValue(newValue, coinsData)) {
-    console.log("existe");
+  const coinsApi = props.coinsInApi.coinsExistsInAPI;
+  const foundCoin = coinExists(newValue.value, coinsApi);
+  if (foundCoin) {
+    newValue.value = "";
+    return (inputValue.coin = foundCoin);
   }
-  console.log(verifyCoin);
-  inputValue.value = newValue.value;
-  return (newValue.value = "");
+  return;
 };
+/////////////////////////////////////////
 </script>
 
 <template>
@@ -70,7 +67,11 @@ const handleInput = () => {
         <p class="text-center">
           Até: {{ endDate.toLocaleDateString("pt-BR") }}
         </p>
-        <Datepicker v-model="endDate" :style="inputStyle" />
+        <Datepicker
+          v-model="endDate"
+          :style="inputStyle"
+          :inputFormat="inputFormat"
+        />
       </v-col>
     </v-row>
     <v-divider class="mt-12"></v-divider>
