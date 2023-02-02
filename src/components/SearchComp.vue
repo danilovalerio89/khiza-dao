@@ -27,24 +27,26 @@ const inputValue = ref("");
 
 const handleInput = async (value) => {
   const verifyInputEmpty = value.length;
-
-  if (verifyInputEmpty === 0) {
-    return;
-  }
   const coinExists = props.coinName.coinExists(value);
 
-  if (coinExists) {
-    const [key] = Object.entries(coinExists)[0];
-    await props.ticker.getCoinTicker(key);
-    await props.trades.getCoinTrades(key);
-    pagination.initPagination(props.trades.data.allTransactions);
+  if (verifyInputEmpty === 0 || !coinExists) {
+    return;
+  }
+  const [key] = Object.entries(coinExists)[0];
+  const dateStart = startDate.value.setHours(0, 0, 0, 0);
+  const dateEnd = endDate.value.setHours(23, 59, 59, 59);
 
+  if (dateStart !== new Date().setHours(0, 0, 0, 0)) {
+    await props.ticker.getCoinTicker(key);
+    await props.trades.getCoinTradesDate(key, dateStart, dateEnd);
+    pagination.initPagination(props.trades.data.allTransactions);
     return (inputValue.value = "");
   }
+  await props.ticker.getCoinTicker(key);
+  await props.trades.getCoinTrades(key);
 
-  //   await coinTest.getCoinTradesDate(coinObj, startDate.value, endDate.value);
-
-  return;
+  pagination.initPagination(props.trades.data.allTransactions);
+  return (inputValue.value = "");
 };
 </script>
 

@@ -35,20 +35,18 @@ const useCoinTradeStore = defineStore("coinTradeStore", () => {
     startDate = new Date(),
     endDate = new Date()
   ) => {
-    let start = startDate.setHours(0, 0, 0, 0);
-    let end = Date.parse(endDate);
-
-    let startToString = start.toString().slice(0, -3);
-    let endToString = end.toString().slice(0, -3);
+    let start = startDate.toString().slice(0, -3);
+    let end = endDate.toString().slice(0, -3);
 
     await api
-      .get(`${coin}/trades/${startToString}/${endToString}`)
+      .get(`${coin}/trades/${start}/${end}`)
       .then((response) => {
         data.allTransactions = response.data;
-        data.validData = true;
+        data.isValid = true;
         data.coin = coin;
         data.buyTransactions = verifyTypeTransaction(response.data).buy;
         data.sellTransactions = verifyTypeTransaction(response.data).sell;
+        return response.data;
       })
       .catch((error) => {
         data.isValid = false;
