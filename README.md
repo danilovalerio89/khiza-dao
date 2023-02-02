@@ -18,31 +18,31 @@ Aplicação Front-end para mostrar capacidade de aprendizado em um novo framewor
 Clone o repositório
 
 ```bash
-  git clone git@github.com:danilovalerio89/khiza-dao.git
+git clone git@github.com:danilovalerio89/khiza-dao.git
 ```
 
 Entre na pasta
 
 ```bash
-  cd khiza-dao
+cd khiza-dao
 ```
 
 Instale khiza-dao com npm
 
 ```bash
-  npm install
+npm install
 ```
 
 Abra o projeto com
 
 ```bash
-  code .
+code .
 ```
 
 Execute o projeto com
 
 ```bash
-  npm run dev
+npm run dev
 ```
 
 Projeto roda no http://localhost:5173/
