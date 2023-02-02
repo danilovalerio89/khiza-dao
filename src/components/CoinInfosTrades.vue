@@ -6,11 +6,13 @@ import { usePaginationStore } from "../stores/usePaginationStore";
 
 const props = defineProps({
   store: {
-    fetchedTicker: {},
     fetchedTrades: {},
   },
+  trades: {},
 });
 const usePagination = usePaginationStore();
+
+console.log(props.trades);
 
 usePagination.initPagination(props.store.fetchedTrades.allTransactions);
 </script>

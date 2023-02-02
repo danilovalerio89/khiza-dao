@@ -29,8 +29,6 @@ const newValue = ref("");
 const inputValue = inject("inputValue");
 
 const handleInput = async () => {
-  console.log(startDate.value);
-  console.log(endDate.value);
   const verifyInputEmpty = newValue.value.length;
   if (verifyInputEmpty === 0) {
     return;
