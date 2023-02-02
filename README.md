@@ -45,7 +45,7 @@ Execute o projeto com
 npm run dev
 ```
 
-Projeto roda no http://localhost:5173/
+Projeto executa no http://localhost:5173/
 
 ## 🔗 Links
 
