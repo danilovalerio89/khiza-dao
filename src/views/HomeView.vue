@@ -37,7 +37,7 @@ onMounted(async () => {
       />
     </v-col>
 
-    <v-col :cols="setCol" :class="displayList">
+    <v-col :class="displayList">
       <SearchComp
         :ticker="coinTickerStore"
         :trades="coinTradeStore"
