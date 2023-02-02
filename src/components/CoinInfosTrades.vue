@@ -1,56 +1,18 @@
 <script setup>
-import { computed, onMounted, reactive } from "vue";
 import calcTransactions from "../utils/calcTransactions";
 import currencyTransform from "../utils/currencyTransform";
 import dateTransform from "../utils/dateTransform";
+import { usePaginationStore } from "../stores/usePaginationStore";
 
 const props = defineProps({
   store: {
     fetchedTicker: {},
     fetchedTrades: {},
   },
-  transactions: {},
 });
-onMounted(() => {
-  configPagination.initPage();
-});
+const usePagination = usePaginationStore();
 
-const reverseArr = (arrObj) => {
-  const copyArr = [...arrObj];
-  const newArr = copyArr.reverse();
-  return newArr;
-};
-
-const configPagination = reactive({
-  page: 1,
-  pageSize: 25,
-  list: reverseArr(props.transactions),
-  listCount: 0,
-  historyList: [],
-  initPage: () => {
-    configPagination.listCount = configPagination.list.length;
-    if (configPagination.listCount < configPagination.pageSize) {
-      configPagination.historyList = configPagination.list;
-    } else {
-      configPagination.historyList = configPagination.list.slice(
-        0,
-        configPagination.pageSize
-      );
-    }
-  },
-  updatePage: (pageIndex) => {
-    let start = (pageIndex - 1) * configPagination.pageSize;
-    let end = pageIndex * configPagination.pageSize;
-
-    configPagination.historyList = configPagination.list.slice(start, end);
-    configPagination.page = pageIndex;
-  },
-  pages: computed(() => {
-    if (configPagination.pageSize == null || configPagination.listCount == null)
-      return 0;
-    return Math.ceil(configPagination.listCount / configPagination.pageSize);
-  }),
-});
+usePagination.initPagination(props.store.fetchedTrades.allTransactions);
 </script>
 
 <template>
@@ -70,14 +32,15 @@ const configPagination = reactive({
   </div>
 
   <v-container class="mt-4 mb-4 mx-auto">
+    <h1>{{ store.fetchedTrades.coin }}</h1>
     <v-row align="center" justify="center" class="w-100">
       <v-pagination
         class="w-100"
-        v-model="configPagination.page"
-        :length="configPagination.pages"
+        v-model="usePagination.pagination.page"
+        :length="usePagination.pages"
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
-        @click="configPagination.updatePage(configPagination.page)"
+        @click="usePagination.updatePage(usePagination.pagination.page)"
       >
       </v-pagination>
 
@@ -86,7 +49,7 @@ const configPagination = reactive({
         min-width="200"
         min-height="120"
         density="compact"
-        v-for="(item, index) in configPagination.historyList"
+        v-for="(item, index) in usePagination.pagination.historyList"
         :key="index"
       >
         <v-col>
@@ -111,11 +74,11 @@ const configPagination = reactive({
 
       <v-pagination
         class="w-100"
-        v-model="configPagination.page"
-        :length="configPagination.pages"
+        v-model="usePagination.pagination.page"
+        :length="usePagination.pages"
         prev-icon="mdi-menu-left"
         next-icon="mdi-menu-right"
-        @click="configPagination.updatePage(configPagination.page)"
+        @click="usePagination.updatePage(usePagination.pagination.page)"
       >
       </v-pagination>
     </v-row>

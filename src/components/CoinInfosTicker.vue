@@ -1,12 +1,11 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 import { useDisplay } from "vuetify";
-const props = defineProps({
+defineProps({
   coinStore: {
     fetchedTicker: {},
     fetchedTrades: {},
   },
-  coinName: {},
 });
 
 const { name } = useDisplay();
@@ -30,23 +29,13 @@ const changeCol = computed(() => {
   }
   return { changeCol };
 });
-
-const prevName = ref("Ethereum");
-
-const coinRenderName = () => {
-  if (props.coinName) {
-    prevName.value = Object.values(props.coinName)[0];
-    return Object.values(props.coinName)[0];
-  }
-  return prevName.value;
-};
 </script>
 
 <template>
   <v-container>
     <h2 class="text-h5">Informações referente as últimas 24 horas</h2>
     <h1 class="text-uppercase text-h3 font-weight-black my-6">
-      {{ coinRenderName() }}
+      {{ coinStore.fetchedTrades.coin }}
     </h1>
     <v-row justify="center" align="center">
       <v-col :cols="changeCol">

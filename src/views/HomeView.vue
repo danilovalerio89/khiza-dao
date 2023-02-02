@@ -16,6 +16,7 @@ const filterdCoin = reactive({
 const inputValue = reactive({
   coin: {},
 });
+provide("inputValue", inputValue);
 
 onMounted(async () => {
   await coinStore.getCoinTicker();
@@ -26,8 +27,6 @@ onMounted(async () => {
     coinNameStore.coinsExistsInAPI
   );
 });
-provide("inputValue", inputValue);
-//////////////////////////////////////////////
 </script>
 
 <template>
@@ -41,7 +40,7 @@ provide("inputValue", inputValue);
       <CoinInfosTicker :coinStore="coinStore" :coinName="filterdCoin.found" />
     </v-col>
     <v-col cols="12">
-      <SearchComp :coinsInApi="coinNameStore" />
+      <SearchComp :coinsInApi="coinNameStore" :coinStore="coinStore" />
     </v-col>
     <v-col
       align="center"
@@ -49,10 +48,7 @@ provide("inputValue", inputValue);
       cols="12"
       v-if="coinStore.fetchedTrades.validData"
     >
-      <CoinInfosTrades
-        :store="coinStore"
-        :transactions="coinStore.fetchedTrades.allTransactions"
-      />
+      <CoinInfosTrades :store="coinStore" />
     </v-col>
   </v-row>
 </template>
