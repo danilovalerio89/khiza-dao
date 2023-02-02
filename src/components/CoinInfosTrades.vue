@@ -5,31 +5,28 @@ import dateTransform from "../utils/dateTransform";
 import { usePaginationStore } from "../stores/usePaginationStore";
 
 const props = defineProps({
-  store: {
-    fetchedTrades: {},
-  },
   trades: {},
 });
 const usePagination = usePaginationStore();
 
-console.log(props.trades);
+console.log(props.trades.allTransactions);
 
-usePagination.initPagination(props.store.fetchedTrades.allTransactions);
+usePagination.initPagination(props.trades.allTransactions);
 </script>
 
 <template>
   <div>
     <h2>
       Valor referente as ultimas
-      {{ store.fetchedTrades.allTransactions.length }} transações
+      {{ trades.allTransactions.length }} transações
     </h2>
     <h3>
       Valor Total Comprado:
-      {{ calcTransactions(store.fetchedTrades.buyTransactions) }}
+      {{ calcTransactions(trades.buyTransactions) }}
     </h3>
     <h3>
       Valor Total Vendido:
-      {{ calcTransactions(store.fetchedTrades.sellTransactions) }}
+      {{ calcTransactions(trades.sellTransactions) }}
     </h3>
   </div>
 

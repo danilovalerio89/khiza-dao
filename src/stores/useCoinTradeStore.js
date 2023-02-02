@@ -9,7 +9,7 @@ const useCoinTradeStore = defineStore("coinTradeStore", () => {
     buyTransactions: [],
     sellTransactions: [],
     coin: "",
-    isValid: Boolean,
+    isValid: false,
   });
 
   const getCoinTrades = async (coin = "ETH") => {

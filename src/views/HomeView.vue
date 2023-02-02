@@ -10,7 +10,6 @@ import SearchComp from "../components/SearchComp.vue";
 const coinTickerStore = useCoinTickerStore();
 const coinTradeStore = useCoinTradeStore();
 const coinNameStore = useCoinNameStore();
-/////////////////////////////////////////////////
 
 const inputValue = reactive({
   coin: {},
@@ -42,11 +41,16 @@ onMounted(async () => {
     </v-col>
 
     <v-col cols="12">
-      <!-- <SearchComp :coinsInApi="coinNameStoreOld" :coinStore="coinStore" /> -->
+      <SearchComp :coinsInApi="coinNameStoreOld" :coinStore="coinStore" />
     </v-col>
 
-    <v-col align="center" justify="center" cols="12">
-      <!-- <CoinInfosTrades :store="coinStore" :trades="coinTradeStore.data" /> -->
+    <v-col
+      v-if="coinTradeStore.data.isValid"
+      align="center"
+      justify="center"
+      cols="12"
+    >
+      <CoinInfosTrades :trades="coinTradeStore.data" />
     </v-col>
   </v-row>
 </template>
