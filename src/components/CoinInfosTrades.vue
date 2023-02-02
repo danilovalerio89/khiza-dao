@@ -9,8 +9,6 @@ const props = defineProps({
 });
 const usePagination = usePaginationStore();
 
-console.log(props.trades.allTransactions);
-
 usePagination.initPagination(props.trades.allTransactions);
 </script>
 

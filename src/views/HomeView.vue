@@ -20,14 +20,6 @@ onMounted(async () => {
   await coinTickerStore.getCoinTicker();
   await coinTradeStore.getCoinTrades();
   coinNameStore.coinExists(coinTradeStore.data.coin);
-
-  // await coinStore.getCoinTicker();
-  // await coinStore.getCoinTrades();
-  // coinNameStoreOld.formatDataInObj(coinsData);
-  // filterdCoin.found = coinExists(
-  //   coinStore.fetchedTrades.coin,
-  //   coinNameStoreOld.coinsExistsInAPI
-  // );
 });
 </script>
 
@@ -41,7 +33,11 @@ onMounted(async () => {
     </v-col>
 
     <v-col cols="12">
-      <SearchComp :coinsInApi="coinNameStoreOld" :coinStore="coinStore" />
+      <SearchComp
+        :ticker="coinTickerStore"
+        :trades="coinTradeStore"
+        :coinName="coinNameStore"
+      />
     </v-col>
 
     <v-col
@@ -54,5 +50,3 @@ onMounted(async () => {
     </v-col>
   </v-row>
 </template>
-
-<!-- v-if="coinStore.fetchedTrades.validData" -->

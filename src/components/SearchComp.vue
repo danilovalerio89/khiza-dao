@@ -1,17 +1,15 @@
 <script setup>
-import { ref, inject } from "vue";
+import { ref } from "vue";
 import Datepicker from "vue3-datepicker";
-import coinExists from "../utils/coinExists";
 import { usePaginationStore } from "../stores/usePaginationStore";
-import { useCoinStore } from "../stores/coinsStore";
 
-const props = defineProps({
-  coinsInApi: {},
-  coinStore: {},
-});
 const pagination = usePaginationStore();
 
-const coinTest = useCoinStore();
+const props = defineProps({
+  trades: {},
+  ticker: {},
+  coinName: {},
+});
 
 const inputStyle = ref({
   display: "flex",
@@ -25,25 +23,27 @@ const inputFormat = ref("dd-MM-yyyy");
 const startDate = ref(new Date());
 const endDate = ref(new Date());
 
-const newValue = ref("");
-const inputValue = inject("inputValue");
+const inputValue = ref("");
 
-const handleInput = async () => {
-  const verifyInputEmpty = newValue.value.length;
+const handleInput = async (value) => {
+  const verifyInputEmpty = value.length;
+
   if (verifyInputEmpty === 0) {
     return;
   }
-  const coinsApi = props.coinsInApi.coinsExistsInAPI;
-  const foundCoin = coinExists(newValue.value, coinsApi);
-  if (foundCoin) {
-    const coinObj = Object.keys(foundCoin)[0];
-    newValue.value = "";
-    await props.coinStore.getCoinTicker(coinObj);
-    await props.coinStore.getCoinTrades(coinObj);
-    pagination.initPagination(props.coinStore.fetchedTrades.allTransactions);
-    await coinTest.getCoinTradesDate(coinObj, startDate.value, endDate.value);
-    return (inputValue.coin = foundCoin);
+  const coinExists = props.coinName.coinExists(value);
+
+  if (coinExists) {
+    const [key] = Object.entries(coinExists)[0];
+    await props.ticker.getCoinTicker(key);
+    await props.trades.getCoinTrades(key);
+    pagination.initPagination(props.trades.data.allTransactions);
+
+    return (inputValue.value = "");
   }
+
+  //   await coinTest.getCoinTradesDate(coinObj, startDate.value, endDate.value);
+
   return;
 };
 </script>
@@ -54,10 +54,10 @@ const handleInput = async () => {
     <input
       placeholder="Ex: Bitcoin/BTC"
       class="input"
-      v-model="newValue"
-      @input="(event) => (newValue = event.target.value)"
+      v-model="inputValue"
+      @change="(event) => (inputValue = event.target.value)"
     />
-    <button class="button" @click="handleInput()">Procurar</button>
+    <button class="button" @click="handleInput(inputValue)">Procurar</button>
   </v-container>
 
   <v-container class="mt-4 mb-4 mx-auto">

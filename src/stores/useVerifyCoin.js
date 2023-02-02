@@ -29,7 +29,7 @@ const useCoinNameStore = defineStore("coinName", () => {
         obj[value].toLocaleLowerCase() ===
           keyOrValue.toString().toLocaleLowerCase()
       ) {
-        coinName.value = { [value]: obj[value] };
+        return (coinName.value = { [value]: obj[value] });
       }
     }
     return false;
