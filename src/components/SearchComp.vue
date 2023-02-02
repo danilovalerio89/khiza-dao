@@ -3,12 +3,15 @@ import { ref, inject } from "vue";
 import Datepicker from "vue3-datepicker";
 import coinExists from "../utils/coinExists";
 import { usePaginationStore } from "../stores/usePaginationStore";
+import { useCoinStore } from "../stores/coinsStore";
 
 const props = defineProps({
   coinsInApi: {},
   coinStore: {},
 });
 const pagination = usePaginationStore();
+
+const coinTest = useCoinStore();
 
 const inputStyle = ref({
   display: "flex",
@@ -26,6 +29,8 @@ const newValue = ref("");
 const inputValue = inject("inputValue");
 
 const handleInput = async () => {
+  console.log(startDate.value);
+  console.log(endDate.value);
   const verifyInputEmpty = newValue.value.length;
   if (verifyInputEmpty === 0) {
     return;
@@ -33,11 +38,12 @@ const handleInput = async () => {
   const coinsApi = props.coinsInApi.coinsExistsInAPI;
   const foundCoin = coinExists(newValue.value, coinsApi);
   if (foundCoin) {
-    const coinObj = Object.keys(foundCoin);
+    const coinObj = Object.keys(foundCoin)[0];
     newValue.value = "";
-    await props.coinStore.getCoinTicker(coinObj[0]);
-    await props.coinStore.getCoinTrades(coinObj[0]);
+    await props.coinStore.getCoinTicker(coinObj);
+    await props.coinStore.getCoinTrades(coinObj);
     pagination.initPagination(props.coinStore.fetchedTrades.allTransactions);
+    await coinTest.getCoinTradesDate(coinObj, startDate.value, endDate.value);
     return (inputValue.coin = foundCoin);
   }
   return;

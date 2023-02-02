@@ -7,8 +7,8 @@ defineProps({
     fetchedTrades: {},
   },
 });
-
 const { name } = useDisplay();
+
 const divClass = computed(() => {
   return "d-flex flex-wrap justify-space-between";
 });

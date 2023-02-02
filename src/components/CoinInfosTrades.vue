@@ -32,7 +32,6 @@ usePagination.initPagination(props.store.fetchedTrades.allTransactions);
   </div>
 
   <v-container class="mt-4 mb-4 mx-auto">
-    <h1>{{ store.fetchedTrades.coin }}</h1>
     <v-row align="center" justify="center" class="w-100">
       <v-pagination
         class="w-100"

@@ -49,5 +49,28 @@ export const useCoinStore = defineStore("coinStore", () => {
       .catch((error) => console.log(error));
   };
 
-  return { getCoinTrades, fetchedTrades, getCoinTicker, fetchedTicker };
+  const getCoinTradesDate = async (
+    coin = "ETH",
+    startDate = new Date(),
+    endDate = new Date()
+  ) => {
+    let start = startDate.setHours(0, 0, 0, 0);
+    let end = Date.parse(endDate);
+
+    let startToString = start.toString().slice(0, -3);
+    let endToString = end.toString().slice(0, -3);
+
+    await api
+      .get(`${coin}/trades/${startToString}/${endToString}`)
+      .then((response) => console.log(response.data))
+      .catch((err) => console.log(err));
+  };
+
+  return {
+    getCoinTrades,
+    fetchedTrades,
+    getCoinTicker,
+    fetchedTicker,
+    getCoinTradesDate,
+  };
 });
