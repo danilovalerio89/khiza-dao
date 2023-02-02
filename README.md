@@ -1,35 +1,57 @@
-# khiza-dao-
+# Khiza Dao
 
-This template should help get you started developing with Vue 3 in Vite.
+Teste Front-End
 
-## Recommended IDE Setup
+Aplicação Front-end para mostrar capacidade de aprendizado em um novo framework e também requisições em API's.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Stack utilizada
 
-## Customize configuration
+- JavaScript
+- Vite
+- Vue 3
+- Vuetify 3
+- Pinia
+- Axios
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Instalação
 
-## Project Setup
+Clone o repositório
 
-```sh
-npm install
+```bash
+  git clone git@github.com:danilovalerio89/khiza-dao.git
 ```
 
-### Compile and Hot-Reload for Development
+Entre na pasta
 
-```sh
-npm run dev
+```bash
+  cd khiza-dao
 ```
 
-### Compile and Minify for Production
+Instale khiza-dao com npm
 
-```sh
-npm run build
+```bash
+  npm install
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+Abra o projeto com
 
-```sh
-npm run lint
+```bash
+  code .
 ```
+
+Execute o projeto com
+
+```bash
+  npm run dev
+```
+
+Projeto roda no http://localhost:5173/
+
+## 🔗 Links
+
+[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://github.com/danilovalerio89)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/danilo-valerio/)
+
+## Autores
+
+- [@danilo](https://github.com/danilovalerio89)
