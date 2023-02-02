@@ -1,8 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useDisplay } from "vuetify";
 import Datepicker from "vue3-datepicker";
 import { usePaginationStore } from "../stores/usePaginationStore";
-
+const { name } = useDisplay();
 const pagination = usePaginationStore();
 
 const props = defineProps({
@@ -18,6 +19,24 @@ const inputStyle = ref({
   "border-radius": "5px",
   padding: "8px",
   margin: "15px auto",
+});
+
+const changeCol = computed(() => {
+  switch (name.value) {
+    case "xs":
+      return "12";
+    case "sm":
+      return "6";
+    case "md":
+      return "6";
+    case "lg":
+      return "3";
+    case "xl":
+      return "3";
+    case "xxl":
+      return "3";
+  }
+  return { changeCol };
 });
 const inputFormat = ref("dd-MM-yyyy");
 const startDate = ref(new Date());
@@ -52,7 +71,7 @@ const handleInput = async (value) => {
 
 <template>
   <v-container align="center" justify="center">
-    <h2 class="color">Procurar outra moeda</h2>
+    <h2>Procurar outra moeda</h2>
     <input
       placeholder="Ex: Bitcoin/BTC"
       class="input"
@@ -64,7 +83,7 @@ const handleInput = async (value) => {
 
   <v-container class="mt-4 mb-4 mx-auto">
     <v-row align="center" justify="center" class="w-100">
-      <v-col cols="3">
+      <v-col :cols="changeCol">
         <p class="text-center text-left">
           De: {{ startDate.toLocaleDateString("pt-BR") }}
         </p>
@@ -75,7 +94,7 @@ const handleInput = async (value) => {
         />
       </v-col>
 
-      <v-col cols="3">
+      <v-col :cols="changeCol">
         <p class="text-center">
           Até: {{ endDate.toLocaleDateString("pt-BR") }}
         </p>
@@ -91,9 +110,6 @@ const handleInput = async (value) => {
 </template>
 
 <style scoped>
-.color {
-  color: white;
-}
 .input {
   margin: 15px 0;
   border: 1px solid white;
@@ -112,5 +128,18 @@ const handleInput = async (value) => {
 }
 .button:hover {
   background-color: rgb(212, 212, 212);
+}
+
+@media (max-width: 360px) {
+  .input,
+  .button {
+    width: 100%;
+    border-radius: 5px;
+  }
+}
+@media (min-width: 760px) {
+  .input {
+    width: 350px;
+  }
 }
 </style>
