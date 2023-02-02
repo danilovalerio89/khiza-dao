@@ -3,9 +3,9 @@ import { defineStore } from "pinia";
 import api from "../services/api";
 import tickerTransform from "../utils/tickerTransform";
 
-const useCoinStore = defineStore("coinStore", () => {
-  const fetchedTicker = reactive({
-    formattedTicker: {},
+const useCoinStore = defineStore("coinTickerStore", () => {
+  const data = reactive({
+    ticker: {},
     isValid: Boolean,
   });
 
@@ -13,13 +13,16 @@ const useCoinStore = defineStore("coinStore", () => {
     await api
       .get(`${coin}/ticker`)
       .then((response) => {
-        fetchedTicker.formattedTicker = tickerTransform(response.data);
-        fetchedTicker.isValid = true;
+        data.ticker = tickerTransform(response.data);
+        data.isValid = true;
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        data.isValid = false;
+        data.error = error;
+      });
   };
 
-  return { fetchedTicker, getCoinTicker };
+  return { data, getCoinTicker };
 });
 
 export default useCoinStore;

@@ -1,5 +1,6 @@
 <script setup>
 import { coinsData } from "../data/coinData";
+import useCoinTickerStore from "../stores/useCoinTickerStore";
 import { onMounted, reactive, provide } from "vue";
 import CoinInfosTicker from "../components/CoinInfosTicker.vue";
 import CoinInfosTrades from "../components/CoinInfosTrades.vue";
@@ -8,6 +9,7 @@ import coinExists from "../utils/coinExists";
 import { useCoinStore } from "../stores/coinsStore";
 import { useCoinNameStore } from "../stores/coinNameStore";
 
+const coinTickerStore = useCoinTickerStore();
 const coinStore = useCoinStore();
 const coinNameStore = useCoinNameStore();
 const filterdCoin = reactive({
@@ -19,6 +21,7 @@ const inputValue = reactive({
 provide("inputValue", inputValue);
 
 onMounted(async () => {
+  await coinTickerStore.getCoinTicker();
   await coinStore.getCoinTicker();
   await coinStore.getCoinTrades();
   coinNameStore.formatDataInObj(coinsData);
@@ -37,7 +40,10 @@ onMounted(async () => {
       v-if="coinStore.fetchedTicker.isValid"
       cols="12"
     >
-      <CoinInfosTicker :coinStore="coinStore" :coinName="filterdCoin.found" />
+      <CoinInfosTicker
+        :coinName="filterdCoin.found"
+        :ticker="coinTickerStore.data.ticker"
+      />
     </v-col>
     <v-col cols="12">
       <SearchComp :coinsInApi="coinNameStore" :coinStore="coinStore" />
