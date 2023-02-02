@@ -28,7 +28,7 @@ usePagination.initPagination(props.trades.allTransactions);
     </h3>
   </div>
 
-  <v-container class="mt-4 mb-4 mx-auto">
+  <v-container class="mt-4 mb-4 mx-auto container">
     <v-row align="center" justify="center" class="w-100">
       <v-pagination
         class="w-100"
@@ -84,5 +84,11 @@ usePagination.initPagination(props.trades.allTransactions);
 <style scoped>
 .display_paragraphs > p {
   display: flex;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    width: 1200px;
+  }
 }
 </style>

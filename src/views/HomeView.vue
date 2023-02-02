@@ -13,16 +13,6 @@ const displayList = computed(() => {
   switch (name.value) {
     case "xs":
       return "d-none";
-    case "sm":
-      return;
-    case "md":
-      return;
-    case "lg":
-      return;
-    case "xl":
-      return;
-    case "xxl":
-      return;
   }
   return { name };
 });
@@ -47,7 +37,7 @@ onMounted(async () => {
       />
     </v-col>
 
-    <v-col cols="12" :class="displayList">
+    <v-col :cols="setCol" :class="displayList">
       <SearchComp
         :ticker="coinTickerStore"
         :trades="coinTradeStore"
